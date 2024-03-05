@@ -85,55 +85,6 @@ export default defineComponent({
 pnpm install vue-router
 ```
 
-在`router`文件夹下创建`index.ts`文件
-
-```typescript
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import HelloTSX from "../component/HelloTSX";
-
-const RootRoute: RouteRecordRaw = {
-  path: "/",
-  component: HelloTSX,
-};
-
-export const constantRouter: RouteRecordRaw[] = [RootRoute];
-
-const router = createRouter({
-  history: createWebHistory(),
-  routes: constantRouter,
-});
-
-export default router;
-```
-
-修改`App.vue`文件
-
-```typescript
-<script lang="ts" setup>
-import HelloTSX from "./component/HelloTSX";
-</script>
-<template>
-  <HelloTSX></HelloTSX>
-+  <RouterView />
-</template>
-
-```
-
-修改`main.ts`文件
-
-```typescript
-import { createApp } from "vue";
-import App from "./App.vue";
-
-import router from "./router";
-
-const app = createApp(App);
-
-app.use(router);
-
-app.mount("#app");
-```
-
 ### 引入 Element Plus
 
 参考：[https://element-plus.org/zh-CN/guide/installation.html](https://element-plus.org/zh-CN/guide/installation.html)

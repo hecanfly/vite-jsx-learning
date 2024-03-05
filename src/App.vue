@@ -8,8 +8,9 @@
       <el-menu-item index="2-1">
         <router-link to="/base/props">Props</router-link>
       </el-menu-item>
-      <el-menu-item index="2-2">item two</el-menu-item>
-      <el-menu-item index="2-3">item three</el-menu-item>
+      <el-menu-item index="2-2">
+        <router-link to="/base/emits">Emits</router-link>
+      </el-menu-item>
     </el-sub-menu>
   </el-menu>
 

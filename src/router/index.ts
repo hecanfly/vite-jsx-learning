@@ -4,7 +4,6 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import HelloTSX from '../component/HelloTSX';
 import Props from '../component/Base/Props';
 
-
 const RootRoute: RouteRecordRaw = {
     path: '/',
     component: HelloTSX
@@ -21,9 +20,13 @@ const BaseRoute: RouteRecordRaw = {
 }
 
 
+const Public: RouteRecordRaw = {
+    path: "/:path(.*)",
+    component: () => import('../component/Public/_404')
+}
 
 
-export const constantRouter: RouteRecordRaw[] = [RootRoute, BaseRoute];
+export const constantRouter: RouteRecordRaw[] = [RootRoute, BaseRoute, Public];
 
 const router = createRouter({
     history: createWebHistory(),
