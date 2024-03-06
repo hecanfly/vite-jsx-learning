@@ -95,13 +95,117 @@ pnpm install vue-router
 
 ### defineComponent
 
+参考：[https://cn.vuejs.org/api/general.html#definecomponent](https://cn.vuejs.org/api/general.html#definecomponent)
+
+在定义 Vue 组件时提供类型推导的辅助函数。
+
+```typescript
+// 函数语法 (需要 3.3+)
+function defineComponent(
+  setup: ComponentOptions['setup'],
+  extraOptions?: ComponentOptions
+): () => any
+```
+
 ### Props
 
+```typescript jsx
+import {PropType, defineComponent, toRaw} from "vue";
+
+type Color = "red" | "blue";
+
+const MyComponent = defineComponent({
+    setup() {
+        const SonComponent = defineComponent({
+            props: {
+                booleanType: {
+                    type: Boolean,
+                    default: true,
+                    required: true,
+                },
+                color: {
+                    type: String as PropType<Color>,
+                },
+                data: {
+                    type: Object,
+                    default: function () {
+                        return {message: "hello"};
+                    },
+                },
+            },
+            setup(props) {
+                console.log(toRaw(props));
+
+                return () => {
+                    return (
+                        <>
+                            <h1>子组件</h1>
+                            <p>booleanType:{props.booleanType === true ? "true" : "false"}</p>
+                            <p>color：{props.color}</p>
+                            <p>data：{props.data?.message}</p>
+                        </>
+                    );
+                };
+            },
+        });
+
+        return () => (
+            <>
+                <h1>父组件</h1>
+                <hr/>
+                <SonComponent booleanType={true} color={"red"} data={{message: "这是自定义的对象"}}></SonComponent>
+            </>
+        );
+    },
+});
+
+export default MyComponent;
+
+```
+
 ### Emits
+
+v-model在tsx中的写法：[https://cn.vuejs.org/guide/extras/render-function.html#v-model](https://cn.vuejs.org/guide/extras/render-function.html#v-model)
+
+```vue
+<script lang="tsx" setup>
+import {defineComponent, ref} from "vue";
+
+const curValue = ref<string>("")
+
+const SonComponent = defineComponent({
+  props: {},
+  emits: ['updateValue'],
+  setup(props, {emit}) {
+    const input = ref<string>("")
+    const updateValue = () => {
+      emit("updateValue", input.value)
+    }
+    return () => {
+      return (
+          <>
+            子组件的值：{input.value}
+            <el-input model-value={input.value} onUpdate:modelValue={(val: string) => (input.value = val)}/>
+            <el-button onClick={updateValue}>把值传递给父组件</el-button>
+          </>
+      )
+    }
+  }
+})
+</script>
+
+<template>
+  父组件的值：{{ curValue }}
+  <hr/>
+  <SonComponent @updateValue="(v:string)=>(curValue = v)"></SonComponent>
+</template>
+```
 
 ### Attrs
 
 ### Slots
+
+[插槽笔记](./插槽.md)
 
 ### Expose
 
